@@ -18,11 +18,18 @@ async function run() {
     try {
         await client.connect();
         const productionCollection = client.db('warehouse').collection('production');
+        const servicesCollection = client.db('warehouse').collection('services');
         app.get('/production', async (req, res) => {
             const query = {};
             const cursor = productionCollection.find(query);
             const production = await cursor.toArray();
             res.send(production);
+        })
+        app.get('/services', async (req, res) => {
+            const query = {};
+            const cursor = servicesCollection.find(query);
+            const services = await cursor.toArray();
+            res.send(services);
         })
     }
     finally {
