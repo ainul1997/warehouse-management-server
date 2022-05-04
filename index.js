@@ -6,7 +6,13 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // middleware
-app.use(cors());
+// app.use(cors());
+const corsConfig = {
+    origin: true,
+    credentials: true,
+}
+app.use(cors(corsConfig))
+app.options('*', cors(corsConfig))
 app.use(express.json());
 
 
@@ -18,19 +24,19 @@ async function run() {
     try {
         await client.connect();
         const productionCollection = client.db('warehouse').collection('production');
-        const servicesCollection = client.db('warehouse').collection('services');
+        // const servicesCollection = client.db('warehouse').collection('services');
         app.get('/production', async (req, res) => {
             const query = {};
             const cursor = productionCollection.find(query);
             const production = await cursor.toArray();
             res.send(production);
-        })
-        app.get('/services', async (req, res) => {
-            const query = {};
-            const cursor = servicesCollection.find(query);
-            const services = await cursor.toArray();
-            res.send(services);
-        })
+        });
+        // app.get('/services', async (req, res) => {
+        //     const query = {};
+        //     const cursor = servicesCollection.find(query);
+        //     const services = await cursor.toArray();
+        //     res.send(services);
+        // })
     }
     finally {
 
