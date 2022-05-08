@@ -26,10 +26,17 @@ async function run() {
         const productionCollection = client.db('warehouse').collection('production');
         const servicesCollection = client.db('warehouse').collection('services');
         app.get('/production', async (req, res) => {
+            console.log('query', req.query);
+            const size = parseInt(req.query.size);
+
             const query = {};
             const cursor = productionCollection.find(query);
-            const production = await cursor.toArray();
+            const production = await cursor.skip(size).limit(size).toArray();
             res.send(production);
+        });
+        app.get('/productionCount', async (req, res) => {
+            const count = await cursor.Count();
+            res.send({ count });
         });
         app.get('/services', async (req, res) => {
             const query = {};
