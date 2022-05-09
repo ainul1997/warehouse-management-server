@@ -40,12 +40,21 @@ async function run() {
             const services = await cursor.toArray();
             res.send(services);
         });
+        //find Id
         app.get('/production/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const product = await productionCollection.findOne(query);
             res.send(product);
         })
+        //Delete Id
+        app.delete('/production/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await productionCollection.deleteOne(query);
+            res.send(result);
+        });
+
 
     }
     finally {
