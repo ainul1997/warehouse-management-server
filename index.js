@@ -54,7 +54,13 @@ async function run() {
             const result = await productionCollection.deleteOne(query);
             res.send(result);
         });
+        // post 
+        app.post('/production', async (req, res) => {
+            const addItem = req.body;
+            const result = await productionCollection.insertOne(addItem);
+            res.send(result);
 
+        })
 
     }
     finally {
